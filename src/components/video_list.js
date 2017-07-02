@@ -1,7 +1,9 @@
 // Component for the list of video previews on the right.
 
 import React from 'react';
+
 import VideoListItem from './video_list_item';
+
 
 const VideoList = ({videos, onVideoSelect}) => {
 
