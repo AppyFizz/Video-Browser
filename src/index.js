@@ -1,10 +1,36 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+// The parent Component for the app.
 
-// Create a new component. This component should produce some HTML.
-const App = () => {
-    return <div>Hello World!</div>;
-}
+import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
+import YTSearch from 'youtube-api-search'
+import SearchBar from './components/search_bar';
+import VideoList from './components/video_list';
+import VideoDetail from './components/video_detail';
+const YOUTUBE_API_KEY = 'AIzaSyD68O4_SmqO0U-Kg-_qcP3ePKlTECtGeb0';
 
-// Take this component's generated HTML and put it on the page (in the DOM)
-ReactDOM.render(<App />, document.querySelector('.container'));
+class App extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { videos: [] };
+
+        YTSearch({key: YOUTUBE_API_KEY, term: ''}, (videos) => {
+            console.log(videos);
+            this.setState({ videos });
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                <SearchBar />
+                <VideoDetail video={this.state.videos[0]}/>
+                <VideoList videos={this.state.videos} />
+            </div>
+        );
+    }
+};
+
+ReactDOM.render(
+    <App />, document.querySelector('.container')
+);
